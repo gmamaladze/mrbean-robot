@@ -10,41 +10,38 @@ pro = None
 e = None
 
 def start():
-    global e
     global pro
     if pro is not None:
         stop()
-    if e is not None:
-        e.set()
-    e = flash(leds_green_on)
+    flash_on(leds_green_on)
+    subprocess.call('if [ -f ./master.zip ]; then rm -Rf ./master.zip; fi', shell=True)
     subprocess.call('if [ -d ./mrbean-robot-master ]; then rm -Rf ./mrbean-robot-master; fi', shell=True)
     subprocess.call('wget https://github.com/gmamaladze/mrbean-robot/archive/master.zip', shell=True)
     subprocess.call('unzip master.zip -d ./', shell=True)
     subprocess.call('pip3 install -r ./mrbean-robot-master/requirements.txt', shell=True)
     command='python3 ./mrbean-robot-master/main.py'
     print('Starting new program.')
-    e.set()
-    leds_off()
+    flash_off()
     pro = subprocess.Popen(command, stdout=sys.stdout, stderr=subprocess.STDOUT, shell=True, preexec_fn=os.setsid)
     pro.wait()
-    GPIO.cleanup()
+    stop()
     
 def stop():
     global pro
     if pro is not None:
         print('Stopping previous program.')
-        os.killpg(os.getpgid(pro.pid), signal.SIGTERM)  # Send the signal to all the process groups
-        sleep(1)
+        try:
+            os.killpg(os.getpgid(pro.pid), signal.SIGTERM)  # Send the signal to all the process groups
+            sleep(1)
+        except ProcessLookupError:
+            pass
         pro = None
-    if e is not None:
-        e.set()
-    flash(leds_red_on)
+    flash_on(leds_red_on)
 
 pins={1:33,2:35,3:37,4:36}
 
 def leds_off():
     for pin in pins.values():
-        GPIO.setup(pin,GPIO.OUT)
         GPIO.output(pin, GPIO.LOW)
 
 def leds_red_on():
@@ -65,11 +62,20 @@ def flash_async(e, led_func):
         leds_off()
         sleep(0.5)
 
-def flash(led_func):
+def flash_on(led_func):
+    flash_off()
+    global e
     e = threading.Event()
     t = threading.Thread(name='non-block', target=flash_async, args=(e, led_func))
     t.start()
-    return e
+
+def flash_off():
+    global e
+    if e is not None:
+        e.set()
+        sleep(1)
+    leds_off()
+
 
 def button_callback(channel):
     print('Button was pressed.')
@@ -83,6 +89,9 @@ def init():
     GPIO.setmode(GPIO.BOARD)  # Use physical pin numbering
     GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.add_event_detect(7, GPIO.RISING, callback=button_callback)  # Setup event on pin 10 rising edge
+    for pin in pins.values():
+        GPIO.setup(pin,GPIO.OUT)
+
 
 init()
 stop()
