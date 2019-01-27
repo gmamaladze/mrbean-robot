@@ -96,4 +96,5 @@ def init():
 init()
 stop()
 print('Press button on mrbean-robot to get the new version of code from github and restart.')
-input("Press enter to quit\n\n")
+while True:
+    sleep(10)
