@@ -2,9 +2,6 @@
 import RPi.GPIO as GPIO
 import time
  
-#GPIO Mode (BOARD / BCM)
-GPIO.setmode(GPIO.BCM)
- 
 #set GPIO Pins
 GPIO_TRIGGER = 29
 GPIO_ECHO = 31
@@ -39,4 +36,3 @@ def distance():
     distance = (TimeElapsed * 34300) / 2
  
     return distance
-    
