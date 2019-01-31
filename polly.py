@@ -1,8 +1,9 @@
 import boto3
-import pygame
 import os
 import time
 import io
+import wave
+import alsaaudio
 
 class Polly():
     OUTPUT_FORMAT='mp3'
@@ -12,20 +13,12 @@ class Polly():
         self.VOICE_ID = voiceId
 
     def say(self, textToSpeech): #get polly response and play directly
-        pollyResponse = self.polly.synthesize_speech(Text=textToSpeech, OutputFormat=self.OUTPUT_FORMAT, VoiceId=self.VOICE_ID)
+        pollyResponse = self.polly.synthesize_speech(Text=textToSpeech, OutputFormat='pcm', SampleRate = 8000, VoiceId=self.VOICE_ID)
         
-        pygame.mixer.init()
-        pygame.init()  # this is needed for pygame.event.* and needs to be called after mixer.init() otherwise no sound is played 
-        
+        device = alsaaudio.PCM(device='default')
+        device.setchannels(1)
+        device.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+        device.setrate(8000)
         with io.BytesIO() as f: # use a memory stream
-            f.write(pollyResponse['AudioStream'].read()) #read audiostream from polly
-            f.seek(0)
-            pygame.mixer.music.load(f)
-            pygame.mixer.music.play()
-
-    def saveToFile(self, textToSpeech, fileName): #get polly response and save to file
-        pollyResponse = self.polly.synthesize_speech(Text=textToSpeech, OutputFormat=self.OUTPUT_FORMAT, VoiceId=self.VOICE_ID)
-        
-        with open(fileName, 'wb') as f:
-            f.write(pollyResponse['AudioStream'].read())
-            f.close()
+            data = pollyResponse['AudioStream'].read()
+            device.write(data)
