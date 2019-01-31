@@ -3,7 +3,11 @@
 import PiMotor
 import time
 import thread
+import polly
 
+pl = polly.Polly('Hans')
+pl.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
+exit(0)
 
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
@@ -16,6 +20,8 @@ def head_rotation():
         time.sleep(1)
         stepper.forward(0.01,180)  # Delay and rotations
         time.sleep(1)
+
+exit(0)
 
 thread.start_new_thread(head_rotation)
 
