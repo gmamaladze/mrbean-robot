@@ -2,19 +2,22 @@
 
 import PiMotor
 import time
+import thread
 
 
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
 
-while True:
-    stepper.forward(0.01,180)  # Delay and rotations
-    time.sleep(1)
-    stepper.backward(0.01,360)
-    time.sleep(1)
-    stepper.forward(0.01,180)  # Delay and rotations
-    time.sleep(1)
-exit(0)
+def head_rotation():
+    while True:
+        stepper.forward(0.01,180)  # Delay and rotations
+        time.sleep(1)
+        stepper.backward(0.01,360)
+        time.sleep(1)
+        stepper.forward(0.01,180)  # Delay and rotations
+        time.sleep(1)
+
+thread.start_new_thread(head_rotation)
 
 m3 = PiMotor.Motor("MOTOR3",1)
 m4 = PiMotor.Motor("MOTOR4",1)
