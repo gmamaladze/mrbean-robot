@@ -4,7 +4,7 @@ import signal
 import subprocess
 from time import sleep
 import RPi.GPIO as GPIO
-import _thread
+import threading
 
 pro = None
 e = None

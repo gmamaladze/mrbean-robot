@@ -2,7 +2,7 @@
 
 import PiMotor
 import time
-import thread
+import _thread
 import polly
 
 pl = polly.Polly('Hans')
