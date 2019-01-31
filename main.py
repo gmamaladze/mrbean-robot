@@ -4,10 +4,16 @@ import PiMotor
 import time
 import _thread
 import polly
+import sonar
 
-pl = polly.Polly('Hans')
-pl.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
-exit(0)
+hans = polly.Polly('Hans')
+hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
+
+while True:
+    dist = sonar.distance()
+    text = f"Abstand {round(dist)} Centimeter."
+    hans.say(text)
+    time.sleep(1)
 
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
@@ -23,7 +29,7 @@ def head_rotation():
 
 exit(0)
 
-thread.start_new_thread(head_rotation)
+_thread.start_new_thread(head_rotation)
 
 m3 = PiMotor.Motor("MOTOR3",1)
 m4 = PiMotor.Motor("MOTOR4",1)
