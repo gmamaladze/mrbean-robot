@@ -5,7 +5,7 @@ import time
 
 
 # Antriebe
-stepper = PiMotor.Stepper("STEPPER2")
+stepper = PiMotor.Stepper("STEPPER1")
 
 stepper.forward(0.1,10)  # Delay and rotations
 time.sleep(2)
