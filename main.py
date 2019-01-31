@@ -7,10 +7,11 @@ import time
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
 
-stepper.forward(0.01,60)  # Delay and rotations
+stepper.forward(0.01,100)  # Delay and rotations
 time.sleep(2)
-stepper.backward(0.01,60)
+stepper.backward(0.01,200)
 time.sleep(2)
+stepper.forward(0.01,100)  # Delay and rotations
 exit(0)
 
 m3 = PiMotor.Motor("MOTOR3",1)
