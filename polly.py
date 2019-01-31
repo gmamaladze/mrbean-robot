@@ -9,7 +9,7 @@ class Polly():
     OUTPUT_FORMAT='mp3'
 
     def __init__(self, voiceId):
-        self.polly = boto3.client('polly') #access amazon web service
+        self.polly = boto3.client('polly', region_name='eu-central-1') #access amazon web service
         self.VOICE_ID = voiceId
 
     def say(self, textToSpeech): #get polly response and play directly
