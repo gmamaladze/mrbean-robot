@@ -11,7 +11,7 @@ hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Robote
 
 while True:
     dist = sonar.distance()
-    text = f"Abstand {round(dist)} Centimeter."
+    text = 'Abstand {} Centimeter.'.format(round(dist))
     hans.say(text)
     time.sleep(1)
 
