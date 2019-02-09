@@ -11,7 +11,7 @@ hans = polly.Polly('Hans')
 
 while True:
     distance = sonar.get_distance()
-    hans.say(f'{distance}')
+    hans.say('{}'.format(distance))
     time.sleep(3)
 
 # Antriebe
