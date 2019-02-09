@@ -10,9 +10,9 @@ hans = polly.Polly('Hans')
 #hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
 
 while True:
-    distance = sonar.get_distance()
+    distance = round(sonar.get_distance())
     hans.say('{}'.format(distance))
-    time.sleep(3)
+    time.sleep(2)
 
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
