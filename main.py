@@ -6,13 +6,14 @@ import _thread
 import polly
 import sonar
 
-hans = polly.Polly('Hans')
-hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
+#hans = polly.Polly('Hans')
+#hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
 
 while True:
     dist = sonar.distance()
-    text = 'Abstand {} Centimeter.'.format(round(dist))
-    hans.say(text)
+    #text = 'Abstand {} Centimeter.'.format(round(dist))
+    #hans.say(text)
+    print(dist)
     time.sleep(1)
 
 # Antriebe
