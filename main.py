@@ -6,12 +6,13 @@ import _thread
 import polly
 import sonar
 
-#hans = polly.Polly('Hans')
+hans = polly.Polly('Hans')
 #hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
 
-for distance in sonar.distance():
-    print(distance)
-    time.sleep(1)
+while True:
+    distance = sonar.get_distance()
+    hans.say(f'{distance}')
+    time.sleep(3)
 
 # Antriebe
 stepper = PiMotor.Stepper("STEPPER1")
