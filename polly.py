@@ -15,10 +15,12 @@ class Polly():
     def say(self, textToSpeech): #get polly response and play directly
         pollyResponse = self.polly.synthesize_speech(Text=textToSpeech, OutputFormat='pcm', SampleRate = '8000', VoiceId=self.VOICE_ID)
         
+        m = alsaaudio.Mixer()
+        m.setvolume(100)
         device = alsaaudio.PCM(device='default')
         device.setchannels(1)
         device.setformat(alsaaudio.PCM_FORMAT_S16_LE)
         device.setrate(8000)
-        with io.BytesIO() as f: # use a memory stream
-            data = pollyResponse['AudioStream'].read()
-            device.write(data)
+        data = pollyResponse['AudioStream'].read()
+        device.write(data)
+        m.setvolume(0)
