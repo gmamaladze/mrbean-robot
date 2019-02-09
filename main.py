@@ -4,14 +4,13 @@ import PiMotor
 import time
 import _thread
 import polly
-import gpiozero
+import sonar
 
 #hans = polly.Polly('Hans')
 #hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
 
-ultrasonic = gpiozero.DistanceSensor(echo=6, trigger=5)
-while True:
-    print(ultrasonic.distance)
+for distance in sonar.distance():
+    print(distance)
     time.sleep(1)
 
 # Antriebe

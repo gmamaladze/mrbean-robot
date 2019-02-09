@@ -1,38 +1,44 @@
-#Libraries
-import RPi.GPIO as GPIO
 import time
- 
-#set GPIO Pins
-GPIO_TRIGGER = 29
-GPIO_ECHO = 31
- 
-#set GPIO direction (IN / OUT)
-GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-GPIO.setup(GPIO_ECHO, GPIO.IN)
- 
+import RPi.GPIO as GPIO
+
+SIGNAL_PIN = 29
+
+GPIO.setmode(GPIO.BOARD)
+
+timeout = 0.020
+
 def distance():
-    # set Trigger to HIGH
-    GPIO.output(GPIO_TRIGGER, True)
- 
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
-    GPIO.output(GPIO_TRIGGER, False)
- 
-    StartTime = time.time()
-    StopTime = time.time()
- 
-    # save StartTime
-    while GPIO.input(GPIO_ECHO) == 0:
-        StartTime = time.time()
- 
-    # save time of arrival
-    while GPIO.input(GPIO_ECHO) == 1:
-        StopTime = time.time()
- 
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
- 
-    return distance
+    GPIO.setup(SIGNAL_PIN, GPIO.OUT)
+    #cleanup output
+    GPIO.output(SIGNAL_PIN, 0)
+
+    time.sleep(0.000002)
+
+    #send signal
+    GPIO.output(SIGNAL_PIN, 1)
+
+    time.sleep(0.000005)
+
+    GPIO.output(SIGNAL_PIN, 0)
+
+    GPIO.setup(SIGNAL_PIN, GPIO.IN)
+    
+    goodread=True
+    watchtime=time.time()
+    while GPIO.input(SIGNAL_PIN)==0 and goodread:
+            starttime=time.time()
+            if (starttime-watchtime > timeout):
+                    goodread=False
+
+    if goodread:
+            watchtime=time.time()
+            while GPIO.input(SIGNAL_PIN)==1 and goodread:
+                    endtime=time.time()
+                    if (endtime-watchtime > timeout):
+                            goodread=False
+    
+    if goodread:
+            duration=endtime-starttime
+            distance=duration*34000/2
+            yield distance
+
