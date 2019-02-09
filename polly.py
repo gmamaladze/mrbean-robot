@@ -15,7 +15,7 @@ class Polly():
     def say(self, textToSpeech): #get polly response and play directly
         pollyResponse = self.polly.synthesize_speech(Text=textToSpeech, OutputFormat='pcm', SampleRate = '8000', VoiceId=self.VOICE_ID)
         
-        m = alsaaudio.Mixer()
+        m = alsaaudio.Mixer('PCM')
         m.setvolume(100)
         device = alsaaudio.PCM(device='default')
         device.setchannels(1)
