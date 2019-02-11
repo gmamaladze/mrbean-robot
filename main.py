@@ -32,6 +32,9 @@ arrows = [al, af, ar]
 arrow_index = 0
 
 def emergency_turn():
+    m3.stop()
+    m4.stop()
+    time.sleep(1)
     head.set_position(5)
     m3.forward(25)
     m4.reverse(25)
@@ -39,12 +42,14 @@ def emergency_turn():
         distance = sonar.get_distance()
         if distance>50:
             break
+    m3.stop()
+    m4.stop()
 
 while True:
     position = head.next()
     time.sleep(0.1)
     distance = sonar.get_distance()
-    distances[position] = (distances[position] + 4 * distance) / 5
+    distances[position] = distance
     preferred_direction = distances.index(max(distances))
     delta_v = (preferred_direction - 5) * 10
     m3.forward(50 + delta_v)
