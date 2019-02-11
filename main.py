@@ -28,22 +28,25 @@ al = PiMotor.Arrow(2)
 af = PiMotor.Arrow(3) 
 ar = PiMotor.Arrow(4)
 
-arrows = [al, af, ar]
+arrows = [ar, af, al]
 arrow_index = 0
 
 def emergency_turn():
+    ar.on()
     m3.stop()
     m4.stop()
     time.sleep(1)
     head.set_position(5)
-    m3.forward(25)
-    m4.reverse(25)
+    m3.forward(50)
+    m4.reverse(50)
     while True:
+        time.sleep(1)
         distance = sonar.get_distance()
         if distance>50:
             break
     m3.stop()
     m4.stop()
+    ar.off()
 
 while True:
     position = head.next()
