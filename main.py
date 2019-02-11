@@ -12,21 +12,25 @@ hans.unmute()
 hans.say('Hallo, mein name ist Mister Bean.')
 head = piservo.Head()
 
+distances = list()
+for head_position in head.positions:
+    head.set_position(head_position)
+    time.sleep(1)
+    distance = sonar.get_distance()
+    distances.append(distance)
+
+m3 = PiMotor.Motor("MOTOR3",1)
+m4 = PiMotor.Motor("MOTOR4",1)
+
 while True:
-    head.center()
-    time.sleep(2)
-    distance = round(sonar.get_distance())
-    hans.say('Vorne {}'.format(distance))
-
-    head.right()
-    time.sleep(2)
-    distance = round(sonar.get_distance())
-    hans.say('Rechts {}'.format(distance))
-
-    head.left()
-    time.sleep(2)
-    distance = round(sonar.get_distance())
-    hans.say('Links {}'.format(distance))
+    position = head.next()
+    time.sleep(1)
+    distance = sonar.get_distance()
+    distances[position] = (distances[position] + 3 * distance) / 4
+    preferred_direction = distances.index(max(distances))
+    delta_v = (preferred_direction - 5) * 10
+    m3.forward(50 - delta_v)
+    m4.forward(50 + delta_v)
 
 exit(0)
 
@@ -35,8 +39,6 @@ def head_rotation():
 
 _thread.start_new_thread(head_rotation)
 
-m3 = PiMotor.Motor("MOTOR3",1)
-m4 = PiMotor.Motor("MOTOR4",1)
 
 # Pfeile
 ab = PiMotor.Arrow(1)
