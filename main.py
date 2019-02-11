@@ -26,11 +26,11 @@ while True:
     position = head.next()
     time.sleep(0.1)
     distance = sonar.get_distance()
-    distances[position] = (distances[position] + 2 * distance) / 3
+    distances[position] = (distances[position] + 4 * distance) / 5
     preferred_direction = distances.index(max(distances))
-    delta_v = (preferred_direction - 5) * 5
-    m3.forward(75 + delta_v)
-    m4.forward(75 - delta_v)
+    delta_v = (preferred_direction - 5) * 10
+    m3.forward(50 + delta_v)
+    m4.forward(50 - delta_v)
 
 exit(0)
 

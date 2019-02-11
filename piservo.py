@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 
 class Head():
 
-	def __init__(self, start=25, stop=125, step=10):
+	def __init__(self, start=25, stop=125+10, step=10):
 		GPIO.setup(40, GPIO.OUT)
 		self.servo = GPIO.PWM(40, 50)						
 		self.position = 0
