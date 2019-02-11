@@ -17,19 +17,16 @@ while True:
     time.sleep(2)
     distance = round(sonar.get_distance())
     hans.say('Vorne {}'.format(distance))
-    time.sleep(2)
 
     head.right()
     time.sleep(2)
     distance = round(sonar.get_distance())
     hans.say('Rechts {}'.format(distance))
-    time.sleep(2)
 
     head.left()
     time.sleep(2)
     distance = round(sonar.get_distance())
     hans.say('Links {}'.format(distance))
-    time.sleep(2)
 
 exit(0)
 
