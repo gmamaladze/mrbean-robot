@@ -15,7 +15,7 @@ head = piservo.Head()
 distances = list()
 for i in range(0, len(head.positions)):
     head.set_position(i)
-    time.sleep(1)
+    time.sleep(0.1)
     distance = sonar.get_distance()
     distances.append(distance)
 
@@ -24,13 +24,13 @@ m4 = PiMotor.Motor("MOTOR4",1)
 
 while True:
     position = head.next()
-    time.sleep(1)
+    time.sleep(0.1)
     distance = sonar.get_distance()
-    distances[position] = (distances[position] + 3 * distance) / 4
+    distances[position] = (distances[position] + 2 * distance) / 3
     preferred_direction = distances.index(max(distances))
-    delta_v = (preferred_direction - 5) * 10
-    m3.forward(50 - delta_v)
-    m4.forward(50 + delta_v)
+    delta_v = (preferred_direction - 5) * 5
+    m3.forward(75 + delta_v)
+    m4.forward(75 - delta_v)
 
 exit(0)
 
