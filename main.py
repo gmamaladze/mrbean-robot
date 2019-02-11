@@ -62,6 +62,6 @@ while True:
         emergency_turn()
 
     arrows[arrow_index].off()
-    arrow_index = round(preferred_direction * 3 / len(head.positions))
+    arrow_index = preferred_direction * 3 // len(head.positions)
     arrows[arrow_index].on()
 
