@@ -5,10 +5,10 @@ import os
 
 class Head:
 	def __init__(self):
-		GPIO.setwarnings(False)
-		GPIO.setmode(GPIO.BOARD)
+		#GPIO.setwarnings(False)
+		#GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(40, GPIO.OUT)
-		self.servo = GPIO.PWM(11, 50)						
+		self.servo = GPIO.PWM(40, 50)						
 		self.servo.start(2.5)
 
 	def left(self):
