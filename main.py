@@ -9,12 +9,12 @@ import piservo
 
 hans = polly.Polly('Hans')
 hans.unmute()
-hans.say('Hallo, mein name ist Mister Bean.')
+#hans.say('Hallo, mein name ist Mister Bean.')
 head = piservo.Head()
 
 distances = list()
-for head_position in head.positions:
-    head.set_position(head_position)
+for i in range(0, len(head.positions)):
+    head.set_position(i)
     time.sleep(1)
     distance = sonar.get_distance()
     distances.append(distance)
