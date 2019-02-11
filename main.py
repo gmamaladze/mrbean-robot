@@ -31,6 +31,18 @@ while True:
     delta_v = (preferred_direction - 5) * 10
     m3.forward(50 + delta_v)
     m4.forward(50 - delta_v)
+    if min(distances)<20:
+        emergency_turn()
+
+def emergency_turn():
+    head.set_position(5)
+    m3.forward(25)
+    m4.reverse(25)
+    while True:
+        distance = sonar.get_distance()
+        if distance>50:
+            break
+
 
 exit(0)
 
