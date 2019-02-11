@@ -5,28 +5,33 @@ import time
 import _thread
 import polly
 import sonar
+import piservo
 
 hans = polly.Polly('Hans')
-#hans.say('Hallo, mein name ist Mister Bean. Ich bin ein selbstgebastelter Roboter. Ich kann reden, sehen und fahren.')
+hans.unmute()
+hans.say('Hallo, mein name ist Mister Bean.')
+head = piservo.Head()
 
 while True:
+    head.center()
     distance = round(sonar.get_distance())
-    hans.say('{}'.format(distance))
+    hans.say('Front {}'.format(distance))
     time.sleep(2)
 
-# Antriebe
-stepper = PiMotor.Stepper("STEPPER1")
+    head.right()
+    distance = round(sonar.get_distance())
+    hans.say('Rechts {}'.format(distance))
+    time.sleep(2)
 
-def head_rotation():
-    while True:
-        stepper.forward(0.01,180)  # Delay and rotations
-        time.sleep(1)
-        stepper.backward(0.01,360)
-        time.sleep(1)
-        stepper.forward(0.01,180)  # Delay and rotations
-        time.sleep(1)
+    head.left()
+    distance = round(sonar.get_distance())
+    hans.say('Links {}'.format(distance))
+    time.sleep(2)
 
 exit(0)
+
+def head_rotation():
+    pass
 
 _thread.start_new_thread(head_rotation)
 
