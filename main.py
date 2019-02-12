@@ -7,6 +7,7 @@ import arrow
 import voice
 import sonar
 import head
+import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
