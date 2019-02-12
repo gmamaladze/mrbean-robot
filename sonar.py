@@ -14,7 +14,7 @@ class Sonar:
     def get_distance(self):
         while True:
             GPIO.setup(self.signal_pin, GPIO.OUT)
-            
+
             # reset
             GPIO.output(self.signal_pin, 0)
             time.sleep(0.000002)
