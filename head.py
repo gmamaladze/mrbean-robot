@@ -2,8 +2,8 @@ import RPi.GPIO as GPIO
 
 
 class Head:
-    MIN = 25
-    MAX = 125
+    MIN = 2.5
+    MAX = 12.5
 
     def __init__(self, nr_of_positions=15, pin_number=40):
         GPIO.setup(pin_number, GPIO.OUT)
@@ -25,7 +25,7 @@ class Head:
             self.direction = -1
             return self.set_position(self.nr_of_positions - 2)
         self.position = position
-        duty_cycle_value=Head.MIN + self.step * position
+        duty_cycle_value = Head.MIN + self.step * position
         self.servo.ChangeDutyCycle(duty_cycle_value)
         return self.position
 
