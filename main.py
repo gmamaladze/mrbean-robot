@@ -33,20 +33,20 @@ arrow_index = 0
 
 def emergency_turn():
     ab.on()
+    m3.forward(0)
+    m4.forward(0)
     while True:
+        time.sleep(1)
         m3.forward(0)
         m4.forward(0)
-        time.sleep(1)
         for i in range(0, len(head.positions)):
             head.set_position(i)
             time.sleep(0.1)
             distances[i] = sonar.get_distance()
-        if distances[4]>20 and distances[5]>20 and distances[6]<20:
+        if distances[4]>20 and distances[5]>20 and distances[6]>20:
             break
-        m3.forward(50)
-        m4.reverse(50)
-        m3.forward(0)
-        m4.forward(0)
+        m3.forward(100)
+        m4.reverse(100)
     ab.off()
 
 while True:
