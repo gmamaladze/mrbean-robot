@@ -24,8 +24,6 @@ class Motor:
 
     def __init__(self, motor_id, config = 1):
         motor = 'MOTOR' + str(motor_id)
-        self.testMode = False
-        self.arrow = Arrow(self.motor_pins[motor]["arrow"])
         self.pins = self.motor_pins[motor]["config"][config]
         GPIO.setup(self.pins['e'], GPIO.OUT)
         GPIO.setup(self.pins['f'], GPIO.OUT)
@@ -36,16 +34,6 @@ class Motor:
         GPIO.output(self.pins['f'], GPIO.LOW)
         GPIO.output(self.pins['r'], GPIO.LOW)
 
-    def test(self, state):
-        """ Puts the motor into test mode
-        When in test mode the Arrow associated with the motor receives power on "forward"
-        rather than the motor. Useful when testing your code.
-
-        Arguments:
-        state = boolean
-        """
-        self.testMode = state
-
     def forward(self, speed):
         """ Starts the motor turning in its configured "forward" direction.
 
@@ -53,12 +41,9 @@ class Motor:
         speed = Duty Cycle Percentage from 0 to 100.
         0 - stop and 100 - maximum speed
         """
-        if self.testMode:
-            self.arrow.on()
-        else:
-            self.PWM.ChangeDutyCycle(speed)
-            GPIO.output(self.pins['f'], GPIO.HIGH)
-            GPIO.output(self.pins['r'], GPIO.LOW)
+        self.PWM.ChangeDutyCycle(speed)
+        GPIO.output(self.pins['f'], GPIO.HIGH)
+        GPIO.output(self.pins['r'], GPIO.LOW)
 
     def reverse(self, speed):
         """ Starts the motor turning in its configured "reverse" direction.
@@ -67,23 +52,15 @@ class Motor:
         speed = Duty Cycle Percentage from 0 to 100.
         0 - stop and 100 - maximum speed
         """
-        if self.testMode:
-            self.arrow.off()
-        else:
-            self.PWM.ChangeDutyCycle(speed)
-            GPIO.output(self.pins['f'], GPIO.LOW)
-            GPIO.output(self.pins['r'], GPIO.HIGH)
+        self.PWM.ChangeDutyCycle(speed)
+        GPIO.output(self.pins['f'], GPIO.LOW)
+        GPIO.output(self.pins['r'], GPIO.HIGH)
 
     def stop(self):
         """ Stops power to the motor,
         """
-        self.arrow.off()
         self.PWM.ChangeDutyCycle(0)
         GPIO.output(self.pins['f'], GPIO.LOW)
         GPIO.output(self.pins['r'], GPIO.LOW)
-
-    def speed(self):
-        """ Control Speed of Motor,
-        """
 
 
