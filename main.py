@@ -45,8 +45,8 @@ while True:
     distances[position] = distance
     preferred_direction = distances.index(max(distances))
     delta_v = 0.5 - preferred_direction / (head.nr_of_positions - 1)
-    motor_left.forward(50 - delta_v * 50)
-    motor_right.forward(50 + delta_v * 50)
+    motor_left.forward(50 - delta_v * 100)
+    motor_right.forward(50 + delta_v * 100)
 
     arrows[arrow_index].off()
     arrow_index = preferred_direction * 3 // head.nr_of_positions
