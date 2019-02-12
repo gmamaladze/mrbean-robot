@@ -25,7 +25,8 @@ class Head:
             self.direction = -1
             return self.set_position(self.nr_of_positions - 2)
         self.position = position
-        self.servo.ChangeDutyCycle(self.step * position)
+        duty_cycle_value=Head.MIN + self.step * position
+        self.servo.ChangeDutyCycle(duty_cycle_value)
         return self.position
 
     def next(self):
