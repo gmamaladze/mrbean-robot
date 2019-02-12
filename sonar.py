@@ -1,45 +1,46 @@
 import time
 import RPi.GPIO as GPIO
 
-SIGNAL_PIN = 29
-
 GPIO.setmode(GPIO.BOARD)
 
 timeout = 0.020
 
-def get_distance():
-    while True:
-        GPIO.setup(SIGNAL_PIN, GPIO.OUT)
-        #cleanup output
-        GPIO.output(SIGNAL_PIN, 0)
 
-        time.sleep(0.000002)
+class Sonar:
 
-        #send signal
-        GPIO.output(SIGNAL_PIN, 1)
+    def __init__(self, signal_pin=29):
+        self.signal_pin = signal_pin
+        GPIO.setup(self.signal_pin, GPIO.OUT)
 
-        time.sleep(0.000005)
+    def get_distance(self):
+        while True:
 
-        GPIO.output(SIGNAL_PIN, 0)
+            # reset
+            GPIO.output(self.signal_pin, 0)
+            time.sleep(0.000002)
 
-        GPIO.setup(SIGNAL_PIN, GPIO.IN)
-        
-        goodread=True
-        watchtime=time.time()
-        while GPIO.input(SIGNAL_PIN)==0 and goodread:
-                starttime=time.time()
-                if (starttime-watchtime > timeout):
-                        goodread=False
+            # send signal
+            GPIO.output(self.signal_pin, 1)
+            time.sleep(0.000005)
+            GPIO.output(self.signal_pin, 0)
 
-        if goodread:
-                watchtime=time.time()
-                while GPIO.input(SIGNAL_PIN)==1 and goodread:
-                        endtime=time.time()
-                        if (endtime-watchtime > timeout):
-                                goodread=False
-        
-        if goodread:
-                duration=endtime-starttime
-                distance=duration*34000/2
+            # Wait for echo
+            GPIO.setup(self.signal_pin, GPIO.IN)
+            good_read = True
+            watch_time = time.time()
+            while GPIO.input(self.signal_pin) == 0 and good_read:
+                start_time = time.time()
+                if start_time - watch_time > timeout:
+                    good_read = False
+
+            if good_read:
+                watch_time = time.time()
+                while GPIO.input(self.signal_pin) == 1 and good_read:
+                    end_time = time.time()
+                    if end_time - watch_time > timeout:
+                        good_read = False
+
+            if good_read:
+                duration = end_time - start_time
+                distance = duration * 34000 / 2
                 return distance
-
