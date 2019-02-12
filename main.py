@@ -8,6 +8,10 @@ import voice
 import sonar
 import head
 
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+
 hans = voice.Voice()
 # hans.say('Hallo, mein name ist Mister Bean.')
 head = head.Head()

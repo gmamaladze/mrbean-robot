@@ -1,11 +1,5 @@
 import RPi.GPIO as GPIO
 
-from arrow import Arrow
-
-GPIO.setmode(GPIO.BOARD)
-
-GPIO.setwarnings(False)
-
 
 class Motor:
     """ Class to handle interaction with the motor pins
