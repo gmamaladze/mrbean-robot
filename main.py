@@ -21,7 +21,7 @@ sonar = sonar.Sonar()
 distances = list()
 for i in range(0, head.nr_of_positions):
     head.set_position(i)
-    time.sleep(0.05)
+    time.sleep(0.08)
     distance = sonar.get_distance()
     distances.append(distance)
 
@@ -40,7 +40,7 @@ arrow_index = 0
 # Main loop
 while True:
     position = head.next()
-    time.sleep(0.05)
+    time.sleep(0.08)
     distance = sonar.get_distance()
     distances[position] = distance
     preferred_direction = distances.index(max(distances))
