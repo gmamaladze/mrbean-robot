@@ -44,7 +44,7 @@ while True:
     distance = sonar.get_distance()
     distances[position] = distance
     preferred_direction = distances.index(max(distances))
-    delta_v = (preferred_direction - 5) * 10
+    delta_v = round((preferred_direction - head.nr_of_positions / 2) * 10)
     motor_left.forward(50 + delta_v)
     motor_right.forward(50 - delta_v)
 
