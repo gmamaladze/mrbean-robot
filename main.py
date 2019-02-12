@@ -49,5 +49,5 @@ while True:
     motor_right.forward(50 - delta_v)
 
     arrows[arrow_index].off()
-    arrow_index = preferred_direction * 3 // len(head.positions)
+    arrow_index = preferred_direction * 3 // head.nr_of_positions
     arrows[arrow_index].on()
