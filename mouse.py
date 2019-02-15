@@ -19,12 +19,12 @@ class Mouse:
         self.y = 0
 
     def get_delta(self):
-        buf = self.device.read(3)
-        # button = ord(buf[0])
-        # bLeft = button & 0x1
-        # bMiddle = (button & 0x4) > 0
-        # bRight = (button & 0x2) > 0
-        dx, dy = struct.unpack("bb", buf[1:])
-        print(dx, dy)
-        self.x += dx
-        self.y += dy
+        while True:
+            buf = self.device.read(3)
+            # button = ord(buf[0])
+            # bLeft = button & 0x1
+            # bMiddle = (button & 0x4) > 0
+            # bRight = (button & 0x2) > 0
+            dx, dy = struct.unpack("bb", buf[1:])
+            self.x += dx
+            self.y += dy
