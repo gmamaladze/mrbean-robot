@@ -28,12 +28,12 @@ arrow_forward = arrow.Arrow(3)
 arrow_right = arrow.Arrow(4)
 
 v_left = 50
-v_right = 100
+v_right = 50
 
 while True:
     dx, dy = mouse.read()
-    v_left -= dy/100
-    v_right+= dy/100
+    v_left += dy/20
+    v_right -= dy/20
     motor_left.forward(v_left)
     motor_right.forward(v_right)
     time.sleep(0.1)
