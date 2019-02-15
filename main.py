@@ -31,6 +31,7 @@ v_left = 100
 v_right = 100
 
 while True:
+    print('-', end='')
     print(mouse.x, mouse.y)
     motor_left.forward(v_left)
     motor_right.forward(v_right)

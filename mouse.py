@@ -25,5 +25,6 @@ class Mouse:
         # bMiddle = (button & 0x4) > 0
         # bRight = (button & 0x2) > 0
         dx, dy = struct.unpack("bb", buf[1:])
+        print(dx, dy)
         self.x += dx
         self.y += dy
