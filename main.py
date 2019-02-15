@@ -32,8 +32,8 @@ v_right = 50
 
 while True:
     dx, dy = mouse.read()
-    v_left += dy/20
-    v_right -= dy/20
+    v_left -= dy/50
+    v_right += dy/50
     motor_left.forward(v_left)
     motor_right.forward(v_right)
     time.sleep(0.1)
