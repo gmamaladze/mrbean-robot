@@ -4,27 +4,33 @@ import threading
 
 class Mouse:
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.dx = 0
+        self.dy = 0
         self.device = open("/dev/input/mice", "rb")
         self.thread = threading.Thread(target=self.get_delta)
         self.thread.start()
+        self.lock = threading.Lock()
 
     def __del__(self):
         self.thread.stop()
         self.device.close()
 
-    def reset(self):
-        self.x = 0
-        self.y = 0
+    def read(self):
+        self.lock.acquire()
+        try:
+            dx, dy = self.dx, self.dy
+            self.dx, self.dy = 0, 0
+        finally:
+            self.lock.release()
+        return dx, dy
 
     def get_delta(self):
         while True:
             buf = self.device.read(3)
-            # button = ord(buf[0])
-            # bLeft = button & 0x1
-            # bMiddle = (button & 0x4) > 0
-            # bRight = (button & 0x2) > 0
             dx, dy = struct.unpack("bb", buf[1:])
-            self.x += dx
-            self.y += dy
+            self.lock.acquire()
+            try:
+                self.x += dx
+                self.y += dy
+            finally:
+                self.lock.release()
