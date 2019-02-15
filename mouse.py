@@ -30,7 +30,7 @@ class Mouse:
             dx, dy = struct.unpack("bb", buf[1:])
             self.lock.acquire()
             try:
-                self.x += dx
-                self.y += dy
+                self.dx += dx
+                self.dy += dy
             finally:
                 self.lock.release()
