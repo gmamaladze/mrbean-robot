@@ -27,17 +27,14 @@ arrow_left = arrow.Arrow(2)
 arrow_forward = arrow.Arrow(3)
 arrow_right = arrow.Arrow(4)
 
-v_left = 50
-v_right = 50
+v_left = 100
+v_right = 100
 
 while True:
-    dx, dy = mouse.get_delta()
-    v_left += dy
-    v_right -= dy
-    print(dx, dy)
+    print(mouse.x, mouse.y)
     motor_left.forward(v_left)
     motor_right.forward(v_right)
-    time.sleep(0.3)
+    time.sleep(0.1)
 
 
 arrows = [arrow_right, arrow_forward, arrow_left]
