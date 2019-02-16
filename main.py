@@ -19,21 +19,22 @@ head = head.Head()
 sonar = sonar.Sonar()
 mouse = mouse.Mouse()
 
-motor_left = motor.Motor(motor_id=3)
-motor_right = motor.Motor(motor_id=4)
+motor_right = motor.Motor(motor_id=3)
+motor_left = motor.Motor(motor_id=4)
 
 arrow_back = arrow.Arrow(1)
 arrow_left = arrow.Arrow(2)
 arrow_forward = arrow.Arrow(3)
 arrow_right = arrow.Arrow(4)
 
-v_left = 50
-v_right = 50
+v_left = 100
+v_right = 100
 
 while True:
     dx, dy = mouse.read()
-    v_left -= dy/50
-    v_right += dy/50
+    print('{0: <{6}} , {2: <{6}}'.format(dx, dy))
+    # v_left -= dy/50
+    # v_right += dy/50
     motor_left.forward(v_left)
     motor_right.forward(v_right)
     time.sleep(0.1)
