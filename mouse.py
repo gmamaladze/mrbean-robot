@@ -7,12 +7,13 @@ class Mouse:
         self.dx = 0
         self.dy = 0
         self.device = open("/dev/input/mice", "rb")
+        self.is_stopped = False
+        self.lock = threading.Lock()
         self.thread = threading.Thread(target=self.get_delta)
         self.thread.start()
-        self.lock = threading.Lock()
 
     def __del__(self):
-        self.thread.stop()
+        self.is_stopped = True
         self.device.close()
 
     def read(self):
@@ -25,7 +26,7 @@ class Mouse:
         return dx, dy
 
     def get_delta(self):
-        while True:
+        while not self.is_stopped:
             buf = self.device.read(3)
             dx, dy = struct.unpack("bb", buf[1:])
             self.lock.acquire()

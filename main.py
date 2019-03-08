@@ -32,7 +32,6 @@ v_right = 100
 
 while True:
     dx, dy = mouse.read()
-    print('{0: <{6}} , {2: <{6}}'.format(dx, dy))
     # v_left -= dy/50
     # v_right += dy/50
     motor_left.forward(v_left)

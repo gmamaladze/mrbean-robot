@@ -4,7 +4,6 @@ import RPi.GPIO as GPIO
 class Motor:
     """ Class to handle interaction with the motor pins
     Supports redefinition of "forward" and "backward" depending on how motors are connected
-    Use the supplied Motorshieldtest module to test the correct configuration for your project.
 
     Arguments:
     motor = string motor pin label (i.e. "MOTOR1","MOTOR2","MOTOR3","MOTOR4") identifying the pins to which
@@ -51,8 +50,6 @@ class Motor:
         GPIO.output(self.pins['r'], GPIO.HIGH)
 
     def stop(self):
-        """ Stops power to the motor,
-        """
         self.PWM.ChangeDutyCycle(0)
         GPIO.output(self.pins['f'], GPIO.LOW)
         GPIO.output(self.pins['r'], GPIO.LOW)

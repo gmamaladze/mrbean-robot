@@ -8,8 +8,9 @@ timeout = 0.020
 
 class Sonar:
 
-    def __init__(self, signal_pin=29):
+    def __init__(self, signal_pin=29, echo_pin=29):
         self.signal_pin = signal_pin
+        self.echo_pin = echo_pin
 
     def get_distance(self):
         while True:
@@ -25,17 +26,17 @@ class Sonar:
             GPIO.output(self.signal_pin, 0)
 
             # Wait for echo
-            GPIO.setup(self.signal_pin, GPIO.IN)
+            GPIO.setup(self.echo_pin, GPIO.IN)
             good_read = True
             watch_time = time.time()
-            while GPIO.input(self.signal_pin) == 0 and good_read:
+            while GPIO.input(self.echo_pin) == 0 and good_read:
                 start_time = time.time()
                 if start_time - watch_time > timeout:
                     good_read = False
 
             if good_read:
                 watch_time = time.time()
-                while GPIO.input(self.signal_pin) == 1 and good_read:
+                while GPIO.input(self.echo_pin) == 1 and good_read:
                     end_time = time.time()
                     if end_time - watch_time > timeout:
                         good_read = False
