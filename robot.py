@@ -29,10 +29,12 @@ class Robot:
         self.vision = vision.Vision(rotation=90)
 
     def __enter__(self):
+        self.head.__enter__()
         self.mouse.__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.mouse.__exit__(exc_val, exc_tb)
+        self.mouse.__exit__(exc_type, exc_val, exc_tb)
+        self.head.__exit__(exc_type, exc_val, exc_tb)
         logging.debug(exc_val)
         GPIO.cleanup()
 
