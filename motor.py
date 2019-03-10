@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import logging
 
 
 class Motor:
@@ -18,6 +19,8 @@ class Motor:
     def __init__(self, motor_id, config=1):
         motor = 'MOTOR' + str(motor_id)
         self.pins = self.motor_pins[motor]["config"][config]
+
+    def __enter__(self):
         GPIO.setup(self.pins['e'], GPIO.OUT)
         GPIO.setup(self.pins['f'], GPIO.OUT)
         GPIO.setup(self.pins['r'], GPIO.OUT)
@@ -26,6 +29,14 @@ class Motor:
         GPIO.output(self.pins['e'], GPIO.HIGH)
         GPIO.output(self.pins['f'], GPIO.LOW)
         GPIO.output(self.pins['r'], GPIO.LOW)
+        logging.debug('Motor entered.')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        GPIO.output(self.pins['f'], GPIO.LOW)
+        GPIO.output(self.pins['r'], GPIO.LOW)
+        self.PWM.stop()
+        GPIO.cleanup(self.pins['e'])
+        logging.debug('Motor exited.')
 
     def forward(self, speed):
         """ Starts the motor turning in its configured "forward" direction.

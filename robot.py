@@ -29,6 +29,8 @@ class Robot:
         #self.vision = vision.Vision(rotation=90)
 
     def __enter__(self):
+        self.motor_right.__enter__()
+        self.motor_left.__enter__()
         self.head.__enter__()
         logging.debug('Robot entered.')
         return self
@@ -39,6 +41,8 @@ class Robot:
             logging.debug(exc_val)
         #self.mouse.__exit__(exc_type, exc_val, exc_tb)
         self.head.__exit__(exc_type, exc_val, exc_tb)
+        self.motor_left.__exit__(exc_type, exc_val, exc_tb)
+        self.motor_right.__exit__(exc_type, exc_val, exc_tb)
         GPIO.cleanup()
         logging.debug('robot exited.')
 
