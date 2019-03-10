@@ -35,3 +35,11 @@ class Robot:
         self.mouse.__exit__(exc_val, exc_tb)
         logging.debug(exc_val)
         GPIO.cleanup()
+
+    def drive(self, speed_left, speed_right):
+        self.motor_right.drive(speed_right)
+        self.motor_left.drive(speed_left)
+
+    def turn(self, speed=100):
+        self.motor_left.drive(speed)
+        self.motor_right.drive(-speed)

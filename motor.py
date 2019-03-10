@@ -15,7 +15,7 @@ class Motor:
                   "MOTOR2": {"config": {1: {"e": 22, "f": 16, "r": 18}, 2: {"e": 22, "f": 18, "r": 16}}, "arrow": 3},
                   "MOTOR1": {"config": {1: {"e": 11, "f": 15, "r": 13}, 2: {"e": 11, "f": 13, "r": 15}}, "arrow": 4}}
 
-    def __init__(self, motor_id, config = 1):
+    def __init__(self, motor_id, config=1):
         motor = 'MOTOR' + str(motor_id)
         self.pins = self.motor_pins[motor]["config"][config]
         GPIO.setup(self.pins['e'], GPIO.OUT)
@@ -54,4 +54,10 @@ class Motor:
         GPIO.output(self.pins['f'], GPIO.LOW)
         GPIO.output(self.pins['r'], GPIO.LOW)
 
-
+    def drive(self, speed):
+        if speed == 0:
+            self.stop()
+        elif speed > 0:
+            self.forward(speed)
+        else:
+            self.reverse(-speed)
