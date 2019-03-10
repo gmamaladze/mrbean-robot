@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import logging
 
 
 class Head:
@@ -16,9 +17,13 @@ class Head:
         GPIO.setup(self.pin_number, GPIO.OUT)
         self.servo = GPIO.PWM(40, 50)
         self.servo.start(self.position)
+        logging.debug('head entered.')
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.servo.stop()
+        GPIO.cleanup(self.pin_number)
+        logging.debug('head exited.')
 
     def center(self):
         self.set_position(self.nr_of_positions // 2)
